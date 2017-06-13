@@ -4,56 +4,45 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
 
+  
+
   renderLinks() {
     if (this.props.authenticated) {
       return (
-        [
-          <li key={2} className='nav-item'>
-            <Link className='nav-link' to='/newpoll' >New Poll</Link>
-          </li>,
-          <li key={5} className='nav-item'>
-            <Link className='nav-link' to='/mypolls' >My Polls</Link>
-          </li>,
-          <li key={6} className='dropdown'>
-            <img id='user-pic' alt='user' src={localStorage.getItem('photo')} className='dropdown-toggle thumbnail' type='menu' data-toggle='dropdown' />
-            <ul key={7} className='dropdown-menu'>
-              <li key={4} className='nav-item'>
-                <Link className='nav-link' to='/signout' >Sign out</Link>
-              </li>
-            </ul>
-          </li>
-        ]
+        <div className='user'>
+          <div className='text'>
+            <h2>Hi, {localStorage.getItem('displayName')}</h2>
+            <Link className='auth-links' to='/signout'>Sign out</Link>
+          </div>
+          <img className='photo' alt='User' src={localStorage.getItem('photo')} />
+        </div>
       )
     } else {
       return (
-        [
-          <li key={3} className='nav-item' >
-            <a className='nav-link' href='/api/signin/twitter' >Sign in with twitter</a>
-          </li >
-        ]
+        <div className='user'>
+          <div className='text'>
+            <h2>Hello Guest</h2>
+            <a className='auth-links' href={`/api/signin/twitter?location=${this.props.searchText}`} > Sign in with twitter</a>
+          </div>
+        </div>
       )
     }
   }
 
   render() {
     return (
-      <nav className="navbar navbar-light">
-        <div className="container navbar-div-container">
-          <div className="navbar-header">
-            <Link className="navbar-brand" to="/">FCC Pollster</Link>
-          </div>
-          <ul className="nav navbar-nav navbar-right">
-            <li key={1} className='nav-item'><Link className='nav-link' to='/polls'>Home</Link></li>
-            {this.renderLinks()}
-          </ul>
-        </div>
-      </nav>
+      <div className='header'>
+        {this.renderLinks()}
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { authenticated: state.auth.authenticated }
+  return {
+    authenticated: state.auth.authenticated,
+    searchText: state.auth.searchText
+  }
 }
 
 export default connect(mapStateToProps)(Header);

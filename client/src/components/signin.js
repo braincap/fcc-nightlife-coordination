@@ -4,18 +4,19 @@ import { connect } from 'react-redux';
 
 class SignIn extends Component {
 
-  extractToken() {
-    return window.location.href.substring(window.location.href.indexOf("?") + 1);
+  extractValues() {
+    //return [0] = Token : [1] = Location
+    return window.location.href.substring(window.location.href.indexOf("?") + 1).split('#');
   }
 
   componentDidMount() {
-    this.props.signInUser(this.extractToken(), () => this.props.history.push('/'));
+    this.props.signInUser(this.extractValues()[0], () => window.location.replace(`/${this.extractValues()[1]}`));
   }
 
   render() {
     return (
       <div>
-        {this.extractToken()}
+
       </div>
     );
   }

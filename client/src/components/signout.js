@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 
 class Signout extends Component {
 
-  componentDidMount() {
-    this.props.signOutUser();
+  componentWillMount() {
+    this.props.signOutUser(localStorage.getItem('token'));
     window.location.replace('/');
   }
 
   render() {
-    return <div>Sorry to see you go...</div>
+    return <div></div>
   }
 }
 

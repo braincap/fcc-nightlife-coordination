@@ -8,11 +8,7 @@ import reduxThunk from 'redux-thunk';
 
 import { AUTH_USER } from './actions/types';
 import reducers from './reducers';
-import Header from './components/header';
-import Polls from './components/polls';
-import PollDetails from './components/polldetails';
-import MyPolls from './components/mypolls';
-import NewPoll from './components/newpoll';
+import App from './components/app';
 import SignIn from './components/signin';
 import SignOut from './components/signout';
 
@@ -30,15 +26,11 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <Route path='/' component={Header} />
+        <Route path='/:loc?' component={App} />
         <Switch>
-          <Route path='/polls/:pollId' component={PollDetails} />
-          <Route path='/polls' component={Polls} />
-          <Route path='/mypolls' component={MyPolls} />
-          <Route path='/newpoll' component={NewPoll} />
           <Route path='/signin' component={SignIn} />
           <Route path='/signout' component={SignOut} />
-          <Redirect from='/' to='/polls' />
+          <Redirect from='/' to='/' />
         </Switch>
       </div>
     </Router>

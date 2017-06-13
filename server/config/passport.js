@@ -11,7 +11,6 @@ function tokenForUser(user) {
   return jwt.encode({ sub: user.id, iat: timestamp }, configAuth.secret);
 }
 
-console.log(configAuth);
 
 // =========================================================================
 // JWT =====================================================================
