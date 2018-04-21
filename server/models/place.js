@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 var Schema = mongoose.Schema;
 
 var User = new Schema({
-  socialId: { type: String, lowercase: true },
+  socialId: { type: String },
   displayName: { type: String },
   photo: String
 });
 
 var Place = new Schema({
-  placeId: { type: String, unique: true, lowercase: true },
+  placeId: { type: String, unique: true },
   user: [User]
 });
 

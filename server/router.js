@@ -3,8 +3,7 @@ import passport from './config/passport';
 import places from './controllers/places';
 const requireAuth = passport.authenticate('jwt', { session: false });
 
-module.exports = function (app) {
-
+module.exports = function(app) {
   //project routes
 
   app.get('/api/search/', jwt_cc, places.search);
@@ -19,15 +18,23 @@ module.exports = function (app) {
   });
 
   //signin - signout routes
-  app.get('/api/signin/twitter', (req, res, next) => {
-    req.session.searchText = req.query.location;
-    next();
-  }, passport.authenticate('twitter'));
+  app.get(
+    '/api/signin/twitter',
+    (req, res, next) => {
+      req.session.searchText = req.query.location;
+      next();
+    },
+    passport.authenticate('twitter')
+  );
 
-  app.get('/api/signin/twitter/callback', passport.authenticate('twitter'),
+  app.get(
+    '/api/signin/twitter/callback',
+    passport.authenticate('twitter'),
     (req, res) => {
-      console.log('session info : ', req.session.searchText)
-      res.redirect(`/signin?${req.session.access_token}#${req.session.searchText}`);
+      console.log('session info : ', req.session.searchText);
+      res.redirect(
+        `/signin?${req.session.access_token}#${req.session.searchText}`
+      );
     }
   );
 
@@ -38,12 +45,15 @@ module.exports = function (app) {
 
   //passport Custom Callback for authentication without redirect on failure
   function jwt_cc(req, res, next) {
-    passport.authenticate('jwt', { session: false }, function (err, user, info) {
-      if (err) { return next(err); }
-      if (!user) { return next(); }
+    passport.authenticate('jwt', { session: false }, function(err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })(req, res, next);
   }
-
-}
+};

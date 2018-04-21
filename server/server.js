@@ -17,7 +17,7 @@ const app = express();
 mongoose.Promise = require('bluebird');
 mongoose.connect(databaseUrl);
 
-// Serve static files 
+// Serve static files
 const staticFiles = express.static(path.join(__dirname, '../../client/build'));
 app.use(staticFiles);
 
@@ -25,7 +25,13 @@ app.use(staticFiles);
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(session({ secret: configAuth.sessionSecret, resave: false, saveUninitialized: true }));
+app.use(
+  session({
+    secret: configAuth.sessionSecret,
+    resave: false,
+    saveUninitialized: true
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -35,4 +41,6 @@ app.use('/*', staticFiles);
 
 // Server setup
 app.set('port', process.env.PORT || 3001);
-app.listen(app.get('port'), () => console.log(`Listening on ${app.get('port')}`));
+app.listen(app.get('port'), () =>
+  console.log(`Listening on ${app.get('port')}`)
+);
